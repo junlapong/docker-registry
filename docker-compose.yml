@@ -9,8 +9,16 @@ services:
       - 5000:5000
     volumes:
       - ./config/config.yml:/etc/docker/registry/config.yml:ro
+      - ./config/auth:/auth:ro
+      #- ./config/certs:/certs:ro
       - ./data:/var/lib/registry:rw
-  #environment:
-    #- "STANDALONE=true"
-    #- "MIRROR_SOURCE=https://registry-1.docker.io"
-    #- "MIRROR_SOURCE_INDEX=https://index.docker.io"
+    environment:
+      - REGISTRY_AUTH=htpasswd
+      - REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm
+      - REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd
+      #- REGISTRY_STORAGE_DELETE_ENABLED=true
+      #- REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.crt
+      #- REGISTRY_HTTP_TLS_KEY=/certs/register.key
+      #- "STANDALONE=true"
+      #- "MIRROR_SOURCE=https://registry-1.docker.io"
+      #- "MIRROR_SOURCE_INDEX=https://index.docker.io"
